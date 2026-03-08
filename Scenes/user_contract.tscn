@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://cs10b7notmbql"]
+
+[ext_resource type="Script" uid="uid://b4uhybdfptvmn" path="res://Scripts/user_contract.gd" id="1_xo2cp"]
+
+[node name="UserContract" type="Node" unique_id=1790820757]
+script = ExtResource("1_xo2cp")
+metadata/_custom_type_script = "uid://b4uhybdfptvmn"
