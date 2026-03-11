@@ -11,8 +11,8 @@ This project is built using Godot 4.6 and features a modular approach to player 
 ### Key Features
 - **Local Multiplayer Support:** Dynamically connects controllers and keyboards to distinct players using `DeviceManager` and `LobbyManager`.
 - **Abstract Input Handling:** Decouples raw input from player logic using the `StatePacket` data structure.
-- **Hierarchical Finite State Machine:** Uses the **FlowHFSM** addon (which is another GitHub repo of mine) to manage complex character states and behaviors visually and modularly.
-  > **Note on FlowHFSM:** While this project utilizes FlowHFSM, I haven't quite nailed how to handle input and other stateless data effectively enough to recommend this specific architecture for anyone else yet.
+- **Hierarchical Finite State Machine:** Uses the **[FlowHFSM](https://github.com/jamesonBradfield/FlowHfsm)** addon (which is another GitHub repo of mine) to manage complex character states and behaviors visually and modularly.
+  > **Note on FlowHFSM:** While this project utilizes [FlowHFSM](https://github.com/jamesonBradfield/FlowHfsm), I haven't quite nailed how to handle input and other stateless data effectively enough to recommend this specific architecture for anyone else yet.
 - **Developer Tools:** Integrates `Panku Console`, `Debug Menu`, and a custom `QuickLogger` for fast debugging and development.
 
 ## Architecture & FlowHFSM Integration
@@ -45,6 +45,7 @@ One of the core technical highlights of this project is how it handles player in
 - **Clean Code:** Avoids massive "spaghetti" `_physics_process` functions by breaking logic into isolated, manageable HFSM nodes.
 
 ## Setup
-1. Clone the repository.
+1. Clone the repository using `git clone --recursive https://github.com/jamesonBradfield/FlowState-Sandbox.git` (this ensures the FlowHFSM submodule is downloaded).
+   - If you already cloned it without `--recursive`, run `git submodule update --init` inside the folder.
 2. Open the project in Godot 4.6 (Forward Plus).
 3. Run the main scene. Try connecting a controller or using the keyboard to see the `LobbyManager` dynamically spawn avatars.
