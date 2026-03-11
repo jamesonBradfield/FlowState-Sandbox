@@ -8,9 +8,14 @@
 
 config_version=5
 
+[addons]
+
+"One_Click_Plugin_Reloader/Default Window"="Script"
+"One_Click_Plugin_Reloader/Output panel notifications"=true
+
 [application]
 
-config/name="PortfolioBuilderJam"
+config/name="FlowState Sandbox"
 run/main_scene="uid://b3acs0e72iqt2"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
@@ -19,9 +24,10 @@ config/icon="res://icon.svg"
 
 QuickLogger="*uid://5dppravr3x2a"
 LobbyManager="*uid://dh3uod4yyfeuy"
-Panku="*uid://cyftuo4syatlv"
 SplitScreenManager="*uid://b4f3qt5q00sia"
 DeviceManager="*uid://bvvt82xwdd3eu"
+Panku="*uid://cyftuo4syatlv"
+DebugMenu="*uid://cggqb75a8w8r"
 
 [display]
 
@@ -33,7 +39,7 @@ project/assembly_name="PortfolioBuilderJam"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/grid_ninepatch/plugin.cfg", "res://addons/panku_console/plugin.cfg")
+enabled=PackedStringArray("res://addons/FlowHFSM/plugin.cfg", "res://addons/debug_menu/plugin.cfg", "res://addons/grid_ninepatch/plugin.cfg", "res://addons/o_c_p_r/plugin.cfg", "res://addons/panku_console/plugin.cfg")
 
 [global_group]
 

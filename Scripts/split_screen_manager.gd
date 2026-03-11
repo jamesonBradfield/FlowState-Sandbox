@@ -15,10 +15,10 @@ func _ready() -> void:
 	screen_grid.columns = 1
 	canvas.add_child(screen_grid)
 
-	LobbyManager.avatar_spawned.connect(assign_player_to_viewport)
+	LobbyManager.player_spawned.connect(assign_player_to_viewport)
 
 
-func assign_player_to_viewport(player_node: Node3D, device_id: int) -> void:
+func assign_player_to_viewport(player_node: FlowCharacter, device_id: int) -> void:
 	var vp_container = SubViewportContainer.new()
 	vp_container.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	vp_container.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -29,6 +29,7 @@ func assign_player_to_viewport(player_node: Node3D, device_id: int) -> void:
 
 	var main_world = get_tree().root.get_node("Main")
 	var pause_menu = pause_scene.instantiate() as Control
+	pause_menu.device_id = device_id
 	pause_menu.hide()
 	viewport.world_3d = main_world.get_viewport().world_3d
 	viewport.add_child(pause_menu)

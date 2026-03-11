@@ -1,24 +1,100 @@
 [gd_scene format=3 uid="uid://cdqhvls818s74"]
 
-[ext_resource type="Script" uid="uid://c2w5dbrjtqg78" path="res://Scripts/avatar.gd" id="1_v0iea"]
+[ext_resource type="Script" uid="uid://c4tjqtm73h847" path="res://addons/FlowHFSM/src/core/FlowCharacter.gd" id="1_v0iea"]
+[ext_resource type="Script" uid="uid://dcocpr3diu5rg" path="res://addons/FlowHFSM/src/core/FlowState.gd" id="2_8erm5"]
+[ext_resource type="Script" uid="uid://d1h8w2eo3xeox" path="res://addons/FlowHFSM/src/core/FlowBehavior.gd" id="3_f1ek2"]
+[ext_resource type="Script" uid="uid://cjd6c1f21vj2c" path="res://addons/FlowHFSM/src/library/behaviors/BehaviorLook.gd" id="4_tx1dd"]
+[ext_resource type="Script" uid="uid://788p3qeflhor" path="res://addons/FlowHFSM/src/core/FlowCondition.gd" id="5_gymyn"]
+[ext_resource type="Script" uid="uid://8v2m7ly3agku" path="res://addons/FlowHFSM/src/library/conditions/ConditionLookActivity.gd" id="6_pu2lt"]
+[ext_resource type="Script" uid="uid://bisipc5ijkx63" path="res://addons/FlowHFSM/src/library/behaviors/BehaviorDebug.gd" id="7_tx1dd"]
+[ext_resource type="Resource" uid="uid://bcbkdclo2rykx" path="res://addons/FlowHFSM/src/library/conditions/Resources/is_not_moving.tres" id="7_ukyrk"]
+[ext_resource type="Resource" uid="uid://lfe685mhqfie" path="res://addons/FlowHFSM/src/library/conditions/Resources/is_moving.tres" id="8_7dp3o"]
+[ext_resource type="Script" uid="uid://c0a2ftxxng6bc" path="res://addons/FlowHFSM/src/library/behaviors/BehaviorPhysics.gd" id="8_f1ek2"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_jjgbg"]
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_cvnsp"]
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_bo1nx"]
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_6t5aa"]
 
-[node name="CharacterBody3D" type="CharacterBody3D" unique_id=2055806386]
+[sub_resource type="Resource" id="Resource_ukyrk"]
+script = ExtResource("7_tx1dd")
+message = "Grounded Active"
+metadata/_custom_type_script = "uid://bisipc5ijkx63"
+
+[sub_resource type="Resource" id="Resource_gymyn"]
+script = ExtResource("7_tx1dd")
+message = "Idle Active"
+metadata/_custom_type_script = "uid://bisipc5ijkx63"
+
+[sub_resource type="Resource" id="Resource_tx1dd"]
+script = ExtResource("8_f1ek2")
+metadata/_custom_type_script = "uid://c0a2ftxxng6bc"
+
+[sub_resource type="Resource" id="Resource_pu2lt"]
+script = ExtResource("7_tx1dd")
+message = "Walk Active"
+metadata/_custom_type_script = "uid://bisipc5ijkx63"
+
+[sub_resource type="Resource" id="Resource_7dp3o"]
+script = ExtResource("4_tx1dd")
+metadata/_custom_type_script = "uid://cjd6c1f21vj2c"
+
+[sub_resource type="Resource" id="Resource_fd4e3"]
+script = ExtResource("7_tx1dd")
+message = "Look Active"
+metadata/_custom_type_script = "uid://bisipc5ijkx63"
+
+[sub_resource type="Resource" id="Resource_h4iuc"]
+script = ExtResource("6_pu2lt")
+
+[node name="Node3D" type="CharacterBody3D" unique_id=281617365 node_paths=PackedStringArray("root_state", "camera", "model")]
 script = ExtResource("1_v0iea")
-metadata/_edit_lock_ = true
+root_state = NodePath("FlowState")
+camera = NodePath("MeshInstance3D/Node3D/Camera3D")
+model = NodePath("MeshInstance3D")
+metadata/_custom_type_script = "uid://c4tjqtm73h847"
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1626107027]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0)
-shape = SubResource("CapsuleShape3D_jjgbg")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=138334910]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_cvnsp")
 
-[node name="head" type="Node3D" parent="." unique_id=468316681]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1085501618]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_6t5aa")
 
-[node name="Camera3D" type="Camera3D" parent="head" unique_id=1317263547]
+[node name="Node3D" type="Node3D" parent="MeshInstance3D" unique_id=1455062931]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.595, 0)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=265805401]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0)
-mesh = SubResource("CapsuleMesh_bo1nx")
+[node name="Camera3D" type="Camera3D" parent="MeshInstance3D/Node3D" unique_id=841331777]
+
+[node name="FlowState" type="Node" parent="." unique_id=1484068244]
+script = ExtResource("2_8erm5")
+is_concurrent = null
+is_starting_state = true
+metadata/_custom_type_script = "uid://dcocpr3diu5rg"
+
+[node name="Grounded" type="Node" parent="FlowState" unique_id=1889089392]
+script = ExtResource("2_8erm5")
+is_concurrent = null
+behaviors = Array[ExtResource("3_f1ek2")]([SubResource("Resource_ukyrk")])
+metadata/_custom_type_script = "uid://dcocpr3diu5rg"
+
+[node name="Idle" type="Node" parent="FlowState/Grounded" unique_id=1739812888]
+script = ExtResource("2_8erm5")
+is_concurrent = null
+behaviors = Array[ExtResource("3_f1ek2")]([SubResource("Resource_gymyn")])
+activation_conditions = Array[ExtResource("5_gymyn")]([ExtResource("7_ukyrk")])
+metadata/_custom_type_script = "uid://dcocpr3diu5rg"
+
+[node name="Walk" type="Node" parent="FlowState/Grounded" unique_id=328589684]
+script = ExtResource("2_8erm5")
+is_concurrent = null
+behaviors = Array[ExtResource("3_f1ek2")]([SubResource("Resource_tx1dd"), SubResource("Resource_pu2lt")])
+activation_conditions = Array[ExtResource("5_gymyn")]([ExtResource("8_7dp3o")])
+metadata/_custom_type_script = "uid://dcocpr3diu5rg"
+
+[node name="Look" type="Node" parent="FlowState" unique_id=768471312]
+script = ExtResource("2_8erm5")
+is_concurrent = true
+behaviors = Array[ExtResource("3_f1ek2")]([SubResource("Resource_7dp3o"), SubResource("Resource_fd4e3")])
+activation_conditions = Array[ExtResource("5_gymyn")]([SubResource("Resource_h4iuc")])
+metadata/_custom_type_script = "uid://dcocpr3diu5rg"
