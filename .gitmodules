@@ -1,3 +1,4 @@
 [submodule "addons/FlowHFSM"]
 	path = addons/FlowHFSM
 	url = https://github.com/jamesonBradfield/FlowHfsm.git
+	branch = sandbox-jam
