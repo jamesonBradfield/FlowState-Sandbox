@@ -1,19 +1,34 @@
 extends Node
 
-var doll: PackedScene = load("res://Scenes/player.tscn")
-signal doll_spawned(doll: Doll)
+var avatar: PackedScene = load("res://Scenes/player.tscn")
+signal avatar_spawned(avatar: Avatar, id: int)
+
+var avatar_device_map: Dictionary = {}
 
 
 func _ready() -> void:
-	InputHandler.new_device_connected.connect(create_player)
+	DeviceManager.new_device_connected.connect(create_player)
+	DeviceManager.update_input_device.connect(update_player_device)
 
 
 func create_player(is_controller: bool, tracking_id: int) -> void:
-	var new_doll = doll.instantiate()
-	var new_input_poller = LocalInputPoller.new()
-	new_input_poller.device_id = tracking_id
-	new_input_poller.controller = is_controller
-	new_doll.local_input_poller = new_input_poller
-	new_doll.add_child(new_input_poller)
-	doll_spawned.emit(new_doll)
-	QuickLogger.info("Player Spawned for device : " + str(tracking_id))
+	var new_avatar = avatar.instantiate() as Avatar
+	var new_bridge = InputToCommandBridge.new()
+
+	new_bridge.device_id = tracking_id
+	new_bridge.controller = is_controller
+
+	new_avatar.state_packet = new_bridge.state_packet
+
+	avatar_device_map[tracking_id] = new_bridge
+
+	add_child(new_bridge)
+	avatar_spawned.emit(new_avatar, tracking_id)
+
+
+func update_player_device(is_controller: bool, tracking_id: int) -> void:
+	if avatar_device_map.has(tracking_id):
+		var input_poller = avatar_device_map[tracking_id]
+		input_poller.device_id = tracking_id
+		input_poller.controller = is_controller
+		QuickLogger.info("Updated Player 1 input method. Controller: " + str(is_controller))

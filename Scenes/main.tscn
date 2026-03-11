@@ -19,7 +19,7 @@ glow_enabled = true
 albedo_texture = ExtResource("1_bo1nx")
 uv1_triplanar = true
 
-[node name="Node3D" type="Node3D" unique_id=1439890194]
+[node name="Main" type="Node3D" unique_id=1439890194]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1490989502]
 environment = SubResource("Environment_jjvhh")

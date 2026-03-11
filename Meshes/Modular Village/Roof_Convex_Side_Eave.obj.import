@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://dlslwoswc7sm8"
+path="res://.godot/imported/Roof_Convex_Side_Eave.obj-120b6f97f0fa2bd93a61a7e331f16294.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Roof_Convex_Side_Eave.obj-120b6f97f0fa2bd93a61a7e331f16294.mesh"]
+
+source_file="res://Meshes/Modular Village/Roof_Convex_Side_Eave.obj"
+dest_files=["res://.godot/imported/Roof_Convex_Side_Eave.obj-120b6f97f0fa2bd93a61a7e331f16294.mesh", "res://.godot/imported/Roof_Convex_Side_Eave.obj-120b6f97f0fa2bd93a61a7e331f16294.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false

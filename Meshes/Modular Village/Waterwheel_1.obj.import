@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://dqqpfo42oifus"
+path="res://.godot/imported/Waterwheel_1.obj-117845dc0da5680d7500a4ce240857ed.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Waterwheel_1.obj-117845dc0da5680d7500a4ce240857ed.mesh"]
+
+source_file="res://Meshes/Modular Village/Waterwheel_1.obj"
+dest_files=["res://.godot/imported/Waterwheel_1.obj-117845dc0da5680d7500a4ce240857ed.mesh", "res://.godot/imported/Waterwheel_1.obj-117845dc0da5680d7500a4ce240857ed.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false
