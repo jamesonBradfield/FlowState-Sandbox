@@ -49,3 +49,4 @@ One of the core technical highlights of this project is how it handles player in
    - If you already cloned it without `--recursive`, run `git submodule update --init` inside the folder.
 2. Open the project in Godot 4.6 (Forward Plus).
 3. Run the main scene. Try connecting a controller or using the keyboard to see the `LobbyManager` dynamically spawn avatars.
+   - **Note:** There is currently some freezing behavior on play that is solved by alt tabbing back and forth. This is known, but not a barrier to usability.
