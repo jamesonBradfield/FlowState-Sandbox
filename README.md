@@ -12,7 +12,7 @@ This project is built using Godot 4.6 and features a modular approach to player 
 - **Local Multiplayer Support:** Dynamically connects controllers and keyboards to distinct players using `DeviceManager` and `LobbyManager`.
 - **Abstract Input Handling:** Decouples raw input from player logic using the `StatePacket` data structure.
 - **Hierarchical Finite State Machine:** Uses the **[FlowHFSM](https://github.com/jamesonBradfield/FlowHfsm)** addon (which is another GitHub repo of mine) to manage complex character states and behaviors visually and modularly.
-  > **Note on FlowHFSM:** While this project utilizes [FlowHFSM](https://github.com/jamesonBradfield/FlowHfsm), I haven't quite nailed how to handle input and other stateless data effectively enough to recommend this specific architecture for anyone else yet.
+  > **Note on FlowHFSM:** While this project utilizes [FlowHFSM](https://github.com/jamesonBradfield/FlowHfsm), I haven't quite nailed how to handle input and other stateless data effectively enough to recommend FlowHfsm standalone for anyone else yet.
 - **Developer Tools:** Integrates `Panku Console`, `Debug Menu`, and a custom `QuickLogger` for fast debugging and development.
 
 ## Architecture & FlowHFSM Integration
