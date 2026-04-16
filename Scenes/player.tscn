@@ -9,7 +9,6 @@
 [ext_resource type="Script" uid="uid://bisipc5ijkx63" path="res://addons/FlowHFSM/src/library/behaviors/BehaviorDebug.gd" id="7_tx1dd"]
 [ext_resource type="Resource" uid="uid://bcbkdclo2rykx" path="res://addons/FlowHFSM/src/library/conditions/Resources/is_not_moving.tres" id="7_ukyrk"]
 [ext_resource type="Resource" uid="uid://lfe685mhqfie" path="res://addons/FlowHFSM/src/library/conditions/Resources/is_moving.tres" id="8_7dp3o"]
-[ext_resource type="Script" uid="uid://c0a2ftxxng6bc" path="res://addons/FlowHFSM/src/library/behaviors/BehaviorPhysics.gd" id="8_f1ek2"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_cvnsp"]
 
@@ -23,15 +22,6 @@ metadata/_custom_type_script = "uid://bisipc5ijkx63"
 [sub_resource type="Resource" id="Resource_gymyn"]
 script = ExtResource("7_tx1dd")
 message = "Idle Active"
-metadata/_custom_type_script = "uid://bisipc5ijkx63"
-
-[sub_resource type="Resource" id="Resource_tx1dd"]
-script = ExtResource("8_f1ek2")
-metadata/_custom_type_script = "uid://c0a2ftxxng6bc"
-
-[sub_resource type="Resource" id="Resource_pu2lt"]
-script = ExtResource("7_tx1dd")
-message = "Walk Active"
 metadata/_custom_type_script = "uid://bisipc5ijkx63"
 
 [sub_resource type="Resource" id="Resource_7dp3o"]
@@ -68,27 +58,22 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.595, 0)
 
 [node name="FlowState" type="Node" parent="." unique_id=1484068244]
 script = ExtResource("2_8erm5")
-is_concurrent = null
 is_starting_state = true
 metadata/_custom_type_script = "uid://dcocpr3diu5rg"
 
 [node name="Grounded" type="Node" parent="FlowState" unique_id=1889089392]
 script = ExtResource("2_8erm5")
-is_concurrent = null
 behaviors = Array[ExtResource("3_f1ek2")]([SubResource("Resource_ukyrk")])
 metadata/_custom_type_script = "uid://dcocpr3diu5rg"
 
 [node name="Idle" type="Node" parent="FlowState/Grounded" unique_id=1739812888]
 script = ExtResource("2_8erm5")
-is_concurrent = null
 behaviors = Array[ExtResource("3_f1ek2")]([SubResource("Resource_gymyn")])
 activation_conditions = Array[ExtResource("5_gymyn")]([ExtResource("7_ukyrk")])
 metadata/_custom_type_script = "uid://dcocpr3diu5rg"
 
 [node name="Walk" type="Node" parent="FlowState/Grounded" unique_id=328589684]
 script = ExtResource("2_8erm5")
-is_concurrent = null
-behaviors = Array[ExtResource("3_f1ek2")]([SubResource("Resource_tx1dd"), SubResource("Resource_pu2lt")])
 activation_conditions = Array[ExtResource("5_gymyn")]([ExtResource("8_7dp3o")])
 metadata/_custom_type_script = "uid://dcocpr3diu5rg"
 

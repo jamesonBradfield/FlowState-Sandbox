@@ -22,12 +22,10 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-QuickLogger="*uid://5dppravr3x2a"
-LobbyManager="*uid://dh3uod4yyfeuy"
-SplitScreenManager="*uid://b4f3qt5q00sia"
-DeviceManager="*uid://bvvt82xwdd3eu"
-DebugMenu="*uid://cggqb75a8w8r"
-Panku="*uid://cyftuo4syatlv"
+QuickLogger="*uid://chobstv5vrghe"
+LobbyManager="*uid://caf1q3puplr8u"
+SplitScreenManager="*uid://ftoobk3q27em"
+DeviceManager="*uid://d1ejgxk0r6kl8"
 
 [display]
 
@@ -39,7 +37,7 @@ project/assembly_name="PortfolioBuilderJam"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/FlowHFSM/plugin.cfg", "res://addons/debug_menu/plugin.cfg", "res://addons/grid_ninepatch/plugin.cfg", "res://addons/o_c_p_r/plugin.cfg", "res://addons/panku_console/plugin.cfg")
+enabled=PackedStringArray("res://addons/FlowHFSM/plugin.cfg")
 
 [global_group]
 
