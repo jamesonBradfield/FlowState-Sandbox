@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://cjd6c1f21vj2c" path="res://addons/FlowHFSM/src/library/behaviors/BehaviorLook.gd" id="4_tx1dd"]
 [ext_resource type="Script" uid="uid://788p3qeflhor" path="res://addons/FlowHFSM/src/core/FlowCondition.gd" id="5_gymyn"]
 [ext_resource type="Script" uid="uid://8v2m7ly3agku" path="res://addons/FlowHFSM/src/library/conditions/ConditionLookActivity.gd" id="6_pu2lt"]
+[ext_resource type="Script" uid="uid://c0a2ftxxng6bc" path="res://addons/FlowHFSM/src/library/behaviors/BehaviorPhysics.gd" id="7_gymyn"]
 [ext_resource type="Script" uid="uid://bisipc5ijkx63" path="res://addons/FlowHFSM/src/library/behaviors/BehaviorDebug.gd" id="7_tx1dd"]
 [ext_resource type="Resource" uid="uid://bcbkdclo2rykx" path="res://addons/FlowHFSM/src/library/conditions/Resources/is_not_moving.tres" id="7_ukyrk"]
 [ext_resource type="Resource" uid="uid://lfe685mhqfie" path="res://addons/FlowHFSM/src/library/conditions/Resources/is_moving.tres" id="8_7dp3o"]
@@ -23,6 +24,10 @@ metadata/_custom_type_script = "uid://bisipc5ijkx63"
 script = ExtResource("7_tx1dd")
 message = "Idle Active"
 metadata/_custom_type_script = "uid://bisipc5ijkx63"
+
+[sub_resource type="Resource" id="Resource_pu2lt"]
+script = ExtResource("7_gymyn")
+metadata/_custom_type_script = "uid://c0a2ftxxng6bc"
 
 [sub_resource type="Resource" id="Resource_7dp3o"]
 script = ExtResource("4_tx1dd")
@@ -74,6 +79,7 @@ metadata/_custom_type_script = "uid://dcocpr3diu5rg"
 
 [node name="Walk" type="Node" parent="FlowState/Grounded" unique_id=328589684]
 script = ExtResource("2_8erm5")
+behaviors = Array[ExtResource("3_f1ek2")]([SubResource("Resource_pu2lt")])
 activation_conditions = Array[ExtResource("5_gymyn")]([ExtResource("8_7dp3o")])
 metadata/_custom_type_script = "uid://dcocpr3diu5rg"
 
