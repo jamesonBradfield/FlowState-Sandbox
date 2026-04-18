@@ -14,19 +14,19 @@ Traditional Godot characters *reach out* to grab input. This creates tight coupl
 
 ```
                   ┌───────────────┐
-                  │ The Collector  │  InputToCommandBridge
-                  │ Captures raw   │  Stands between hardware
-                  │ KBM/Controller │  and the game. Applies
-                  │ input, applies │  custom deadzone math,
-                  │ custom         │  then drops into a bucket.
-                  │ deadzones      │
+                  │ The Collector │  InputToCommandBridge
+                  │ Captures raw  │  Stands between hardware
+                  │ KBM/Controller│  and the game. Applies
+                  │ input, applies│  custom deadzone math,
+                  │ custom        │  then drops into a bucket.
+                  │ deadzones     │
                   └───────┬───────┘
                           │
                           ▼
                   ┌───────────────┐
                   │  The Bucket   │  StatePacket
                   │  A lightweight│  Doesn't care if a human
-                  │ data container │  or AI holds it — carries
+                  │ data container│  or AI holds it — carries
                   │  move/look/   │  move_vec, look_vec, and
                   │     act       │  action states onward.
                   └───────┬───────┘
