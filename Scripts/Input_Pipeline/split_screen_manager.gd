@@ -33,8 +33,9 @@ func assign_player_to_viewport(player_node: FlowCharacter, device_id: int) -> vo
 	var viewport = SubViewport.new()
 	viewport.handle_input_locally = true
 
-	var main_world = get_tree().root.get_node("Main")
-	viewport.world_3d = main_world.get_viewport().world_3d
+	var main_world = get_tree().root.get_child(0)
+	if main_world:
+		viewport.world_3d = main_world.get_viewport().world_3d
 	vp_container.add_child(viewport)
 	screen_grid.add_child(vp_container)
 

@@ -4,6 +4,9 @@ var player_scene: PackedScene = load("res://Scenes/player.tscn")
 signal player_spawned(player: FlowCharacter, id: int)
 
 var player_device_map: Dictionary = {}
+## When true, LobbyManager skips auto-spawning. Set by example scenes
+## that manage their own players.
+var auto_spawn_enabled: bool = true
 
 
 func _ready() -> void:
@@ -12,6 +15,8 @@ func _ready() -> void:
 
 
 func create_player(is_controller: bool, tracking_id: int) -> void:
+	if not auto_spawn_enabled:
+		return
 	var new_player = player_scene.instantiate() as FlowCharacter
 	var new_bridge = InputToCommandBridge.new()
 

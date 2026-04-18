@@ -1,0 +1,135 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Examples/single_player_demo/demo_setup.gd" id="0_setup"]
+[ext_resource type="Script" uid="uid://do83kvm3rtdlp" path="res://Examples/single_player_demo/demo_character.gd" id="1_demo"]
+[ext_resource type="Script" uid="uid://dcocpr3diu5rg" path="res://addons/FlowHFSM/src/core/FlowState.gd" id="2_fs"]
+[ext_resource type="Script" uid="uid://d1h8w2eo3xeox" path="res://addons/FlowHFSM/src/core/FlowBehavior.gd" id="3_fb"]
+[ext_resource type="Script" uid="uid://cjd6c1f21vj2c" path="res://addons/FlowHFSM/src/library/behaviors/BehaviorLook.gd" id="4_bl"]
+[ext_resource type="Script" uid="uid://788p3qeflhor" path="res://addons/FlowHFSM/src/core/FlowCondition.gd" id="5_fc"]
+[ext_resource type="Script" uid="uid://8v2m7ly3agku" path="res://addons/FlowHFSM/src/library/conditions/ConditionLookActivity.gd" id="6_cla"]
+[ext_resource type="Script" uid="uid://c0a2ftxxng6bc" path="res://addons/FlowHFSM/src/library/behaviors/BehaviorPhysics.gd" id="7_bp"]
+[ext_resource type="Script" uid="uid://bisipc5ijkx63" path="res://addons/FlowHFSM/src/library/behaviors/BehaviorDebug.gd" id="8_bd"]
+[ext_resource type="Script" uid="uid://dh4wkpw5fi72k" path="res://addons/FlowHFSM/src/library/behaviors/BehaviorRotation.gd" id="9_br"]
+[ext_resource type="Resource" uid="uid://bcbkdclo2rykx" path="res://addons/FlowHFSM/src/library/conditions/Resources/is_not_moving.tres" id="10_cnm"]
+[ext_resource type="Resource" uid="uid://lfe685mhqfie" path="res://addons/FlowHFSM/src/library/conditions/Resources/is_moving.tres" id="11_cm"]
+[ext_resource type="Texture2D" uid="uid://dwskouta7sufw" path="res://addons/kenney_prototype_textures/dark/texture_01.png" id="12_tex"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sky"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_sky"]
+sky_material = SubResource("ProceduralSkyMaterial_sky")
+
+[sub_resource type="Environment" id="Env_sky"]
+background_mode = 2
+sky = SubResource("Sky_sky")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="Mat_floor"]
+albedo_texture = ExtResource("12_tex")
+uv1_triplanar = true
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_player"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_player"]
+
+[sub_resource type="Resource" id="Res_grounded_debug"]
+script = ExtResource("8_bd")
+message = "Grounded Active"
+metadata/_custom_type_script = "uid://bisipc5ijkx63"
+
+[sub_resource type="Resource" id="Res_idle_debug"]
+script = ExtResource("8_bd")
+message = "Idle Active"
+metadata/_custom_type_script = "uid://bisipc5ijkx63"
+
+[sub_resource type="Resource" id="Res_walk_physics"]
+script = ExtResource("7_bp")
+metadata/_custom_type_script = "uid://c0a2ftxxng6bc"
+
+[sub_resource type="Resource" id="Res_walk_rotation"]
+script = ExtResource("9_br")
+metadata/_custom_type_script = "uid://dh4wkpw5fi72k"
+
+[sub_resource type="Resource" id="Res_look_behavior"]
+script = ExtResource("4_bl")
+metadata/_custom_type_script = "uid://cjd6c1f21vj2c"
+
+[sub_resource type="Resource" id="Res_look_debug"]
+script = ExtResource("8_bd")
+message = "Look Active"
+metadata/_custom_type_script = "uid://bisipc5ijkx63"
+
+[sub_resource type="Resource" id="Res_look_condition"]
+script = ExtResource("6_cla")
+metadata/_custom_type_script = "uid://8v2m7ly3agku"
+
+[node name="Demo" type="Node3D"]
+script = ExtResource("0_setup")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Env_sky")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Floor" type="CSGBox3D" parent="."]
+material_override = SubResource("Mat_floor")
+use_collision = true
+size = Vector3(30, 0.1, 30)
+
+[node name="Player" type="CharacterBody3D" parent="." node_paths=PackedStringArray("root_state", "camera", "model")]
+script = ExtResource("1_demo")
+root_state = NodePath("FlowState")
+camera = NodePath("MeshInstance3D/Head/Camera3D")
+model = NodePath("MeshInstance3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_player")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_player")
+
+[node name="Head" type="Node3D" parent="Player/MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.595, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Player/MeshInstance3D/Head"]
+
+[node name="FlowState" type="Node" parent="Player"]
+script = ExtResource("2_fs")
+is_starting_state = true
+required_keys = null
+metadata/_custom_type_script = "uid://dcocpr3diu5rg"
+
+[node name="Grounded" type="Node" parent="Player/FlowState"]
+script = ExtResource("2_fs")
+behaviors = Array[ExtResource("3_fb")]([SubResource("Res_grounded_debug")])
+required_keys = null
+metadata/_custom_type_script = "uid://dcocpr3diu5rg"
+
+[node name="Idle" type="Node" parent="Player/FlowState/Grounded"]
+script = ExtResource("2_fs")
+behaviors = Array[ExtResource("3_fb")]([SubResource("Res_idle_debug")])
+activation_conditions = Array[ExtResource("5_fc")]([ExtResource("10_cnm")])
+required_keys = null
+metadata/_custom_type_script = "uid://dcocpr3diu5rg"
+
+[node name="Walk" type="Node" parent="Player/FlowState/Grounded"]
+script = ExtResource("2_fs")
+behaviors = Array[ExtResource("3_fb")]([SubResource("Res_walk_physics"), SubResource("Res_walk_rotation")])
+activation_conditions = Array[ExtResource("5_fc")]([ExtResource("11_cm")])
+required_keys = null
+metadata/_custom_type_script = "uid://dcocpr3diu5rg"
+
+[node name="Look" type="Node" parent="Player/FlowState"]
+script = ExtResource("2_fs")
+is_concurrent = true
+behaviors = Array[ExtResource("3_fb")]([SubResource("Res_look_behavior"), SubResource("Res_look_debug")])
+activation_conditions = Array[ExtResource("5_fc")]([SubResource("Res_look_condition")])
+required_keys = null
+metadata/_custom_type_script = "uid://dcocpr3diu5rg"

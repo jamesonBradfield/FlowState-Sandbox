@@ -1,0 +1,94 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://c4tjqtm73h847" path="res://addons/FlowHFSM/src/core/FlowCharacter.gd" id="1_fc"]
+[ext_resource type="Script" uid="uid://dcocpr3diu5rg" path="res://addons/FlowHFSM/src/core/FlowState.gd" id="2_fs"]
+[ext_resource type="Script" uid="uid://d1h8w2eo3xeox" path="res://addons/FlowHFSM/src/core/FlowBehavior.gd" id="3_fb"]
+[ext_resource type="Script" uid="uid://c0a2ftxxng6bc" path="res://addons/FlowHFSM/src/library/behaviors/BehaviorPhysics.gd" id="4_bp"]
+[ext_resource type="Script" uid="uid://bisipc5ijkx63" path="res://addons/FlowHFSM/src/library/behaviors/BehaviorDebug.gd" id="5_bd"]
+[ext_resource type="Script" uid="uid://dh4wkpw5fi72k" path="res://addons/FlowHFSM/src/library/behaviors/BehaviorRotation.gd" id="6_br"]
+[ext_resource type="Script" uid="uid://dg00juiv0hynx" path="res://Examples/ai_character/ai_brain.gd" id="7_aib"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ai"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_ai"]
+
+[sub_resource type="StandardMaterial3D" id="Mat_ai"]
+albedo_color = Color(1, 0.3, 0.3, 1)
+
+[sub_resource type="Resource" id="Res_grounded_debug"]
+script = ExtResource("5_bd")
+message = "AI Grounded Active"
+metadata/_custom_type_script = "uid://bisipc5ijkx63"
+
+[sub_resource type="Resource" id="Res_idle_debug"]
+script = ExtResource("5_bd")
+message = "AI Idle Active"
+metadata/_custom_type_script = "uid://bisipc5ijkx63"
+
+[sub_resource type="Resource" id="Res_walk_physics"]
+script = ExtResource("4_bp")
+metadata/_custom_type_script = "uid://c0a2ftxxng6bc"
+
+[sub_resource type="Resource" id="Res_walk_rotation"]
+script = ExtResource("6_br")
+metadata/_custom_type_script = "uid://dh4wkpw5fi72k"
+
+[node name="AICharacter" type="CharacterBody3D" node_paths=PackedStringArray("root_state", "camera", "model")]
+script = ExtResource("1_fc")
+root_state = NodePath("FlowState")
+camera = NodePath("MeshInstance3D/Head/Camera3D")
+model = NodePath("MeshInstance3D")
+metadata/_custom_type_script = "uid://c4tjqtm73h847"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_ai")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_ai")
+surface_material_override/0 = SubResource("Mat_ai")
+
+[node name="Head" type="Node3D" parent="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.595, 0)
+
+[node name="Camera3D" type="Camera3D" parent="MeshInstance3D/Head"]
+current = false
+
+[node name="AiBrain" type="Node" parent="."]
+script = ExtResource("7_aib")
+patrol_speed = 3.0
+chase_speed = 6.0
+detection_range = 8.0
+wait_time = 2.0
+patrol_points = Array[Vector3]([Vector3(5, 0, 0), Vector3(-5, 0, 0), Vector3(0, 0, 5), Vector3(0, 0, -5)])
+
+[node name="FlowState" type="Node" parent="."]
+script = ExtResource("2_fs")
+is_starting_state = true
+required_keys = null
+metadata/_custom_type_script = "uid://dcocpr3diu5rg"
+
+[node name="Grounded" type="Node" parent="FlowState"]
+script = ExtResource("2_fs")
+behaviors = Array[ExtResource("3_fb")]([SubResource("Res_grounded_debug")])
+required_keys = null
+metadata/_custom_type_script = "uid://dcocpr3diu5rg"
+
+[node name="Idle" type="Node" parent="FlowState/Grounded"]
+script = ExtResource("2_fs")
+behaviors = Array[ExtResource("3_fb")]([SubResource("Res_idle_debug")])
+required_keys = null
+metadata/_custom_type_script = "uid://dcocpr3diu5rg"
+
+[node name="Walk" type="Node" parent="FlowState/Grounded"]
+script = ExtResource("2_fs")
+behaviors = Array[ExtResource("3_fb")]([SubResource("Res_walk_physics"), SubResource("Res_walk_rotation")])
+required_keys = null
+metadata/_custom_type_script = "uid://dcocpr3diu5rg"
+
+[node name="Look" type="Node" parent="FlowState"]
+script = ExtResource("2_fs")
+is_concurrent = true
+required_keys = null
+metadata/_custom_type_script = "uid://dcocpr3diu5rg"
