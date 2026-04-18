@@ -9,6 +9,10 @@ var p1_device_id: int = -1 # Track which device P1 is actually using
 func _ready() -> void:
 	self.new_device_connected.connect(log_device_info)
 	QuickLogger.set_script_level(self, QuickLogger.LogLevel.DEBUG)
+	Input.joy_connection_changed.connect(_on_joy_connection_changed)
+	# Register any controllers already connected at startup
+	for pad_id in Input.get_connected_joypads():
+		_register_device(true, pad_id)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -44,3 +48,18 @@ func _unhandled_input(event: InputEvent) -> void:
 func log_device_info(is_controller: bool, _device_id: int) -> void:
 	QuickLogger.debug("Device with id " + str(_device_id) + " connected ")
 	QuickLogger.debug("is_controller: " + str(is_controller))
+
+
+func _on_joy_connection_changed(device: int, connected: bool) -> void:
+	if connected:
+		_register_device(true, device)
+
+
+func _register_device(is_controller: bool, device_id: int) -> void:
+	if used_device_ids.has(device_id):
+		return
+	used_device_ids.append(device_id)
+	if p1_device_id == -1:
+		p1_device_id = device_id
+		p1_is_controller = is_controller
+	new_device_connected.emit(is_controller, device_id)

@@ -64,23 +64,27 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.595, 0)
 [node name="FlowState" type="Node" parent="." unique_id=1484068244]
 script = ExtResource("2_8erm5")
 is_starting_state = true
+required_keys = null
 metadata/_custom_type_script = "uid://dcocpr3diu5rg"
 
 [node name="Grounded" type="Node" parent="FlowState" unique_id=1889089392]
 script = ExtResource("2_8erm5")
 behaviors = Array[ExtResource("3_f1ek2")]([SubResource("Resource_ukyrk")])
+required_keys = null
 metadata/_custom_type_script = "uid://dcocpr3diu5rg"
 
 [node name="Idle" type="Node" parent="FlowState/Grounded" unique_id=1739812888]
 script = ExtResource("2_8erm5")
 behaviors = Array[ExtResource("3_f1ek2")]([SubResource("Resource_gymyn")])
 activation_conditions = Array[ExtResource("5_gymyn")]([ExtResource("7_ukyrk")])
+required_keys = null
 metadata/_custom_type_script = "uid://dcocpr3diu5rg"
 
 [node name="Walk" type="Node" parent="FlowState/Grounded" unique_id=328589684]
 script = ExtResource("2_8erm5")
 behaviors = Array[ExtResource("3_f1ek2")]([SubResource("Resource_pu2lt")])
 activation_conditions = Array[ExtResource("5_gymyn")]([ExtResource("8_7dp3o")])
+required_keys = null
 metadata/_custom_type_script = "uid://dcocpr3diu5rg"
 
 [node name="Look" type="Node" parent="FlowState" unique_id=768471312]
@@ -88,4 +92,5 @@ script = ExtResource("2_8erm5")
 is_concurrent = true
 behaviors = Array[ExtResource("3_f1ek2")]([SubResource("Resource_7dp3o"), SubResource("Resource_fd4e3")])
 activation_conditions = Array[ExtResource("5_gymyn")]([SubResource("Resource_h4iuc")])
+required_keys = null
 metadata/_custom_type_script = "uid://dcocpr3diu5rg"
