@@ -21,30 +21,7 @@ Built on **Godot 4.6** with **Jolt Physics** and the **[FlowHFSM](https://github
 
 Raw input goes in one end. Context comes out the other. States read the context and act. That's it.
 
-```
-      DeviceManager                    LobbyManager                  SplitScreenManager
-           │                                 │                               │
-           │ new_device_connected            │ create_player()               │ assign_player_to_viewport()
-           ▼                                 ▼                               ▼
-          InputToCommandBridge ──► StatePacket ──► FlowCharacter ──► SubViewport (rendering)
-        │                       │               │
-        │ Captures & normalizes │ Carries       │ _physics_process():
-        │ per-device input      │ move/look/    │   1. _poll_input()
-        │ (custom deadzones,    │ action data   │   2. data_map.resolve() → context dict
-        │ sensitivity)          │               │   3. root_state.process_state(delta, self, context)
-        │                       │               │
-        └───────────────────────┴───────────────┘────────────────────────────────────────────────────────────
-                                                │
-                                                ▼
-                                       FlowState hierarchy
-                                         ├── Behaviors read context
-                                         ├── Conditions evaluate context
-                                         └── required_keys filters context for children
-```
-
-### Input → Data → Context → State
-
-Each stage is its own node with one job. Data flows one direction. Nothing reaches backward.
+Data flows one direction. Each stage is its own node with one job — nothing reaches backward.
 
 | Stage | Node | Job |
 |-------|------|-----|
@@ -54,7 +31,7 @@ Each stage is its own node with one job. Data flows one direction. Nothing reach
 | Decide | `FlowHFSM` | States, behaviors, and conditions all read from context — never from `Input` |
 | Render | `SplitScreenManager` | Per-player SubViewport, HUD, and device-filtered pause menu |
 
-> 📐 _Detailed architecture diagrams coming soon._
+Three managers sit above the pipeline: `DeviceManager` detects controllers and emits `new_device_connected`, `LobbyManager` calls `create_player()` to spawn avatars, and `SplitScreenManager` assigns each player to its own viewport. Your `FlowCharacter`'s `_physics_process` ties it all together — poll input, resolve the context dict, then let the state hierarchy process it.
 
 ### Why Custom Input Handling?
 

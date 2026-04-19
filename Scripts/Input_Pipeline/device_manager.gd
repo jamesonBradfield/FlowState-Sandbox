@@ -10,9 +10,10 @@ func _ready() -> void:
 	self.new_device_connected.connect(log_device_info)
 	QuickLogger.set_script_level(self, QuickLogger.LogLevel.DEBUG)
 	Input.joy_connection_changed.connect(_on_joy_connection_changed)
-	# Register any controllers already connected at startup
+	# Defer initial registration so scene scripts can set
+	# LobbyManager.auto_spawn_enabled = false before players spawn
 	for pad_id in Input.get_connected_joypads():
-		_register_device(true, pad_id)
+		call_deferred(&"_register_device", true, pad_id)
 
 
 func _unhandled_input(event: InputEvent) -> void:
