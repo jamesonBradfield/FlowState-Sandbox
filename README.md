@@ -2,40 +2,40 @@
 
 **Local multiplayer in Godot shouldn't feel like defusing a bomb.**
 
-You know the pattern: your player script calls `Input.get_vector()`, then your state script calls it again, then your AI script needs the same data but from a different source, and before long everything is reaching into everything else. Add a second player with a controller and it all falls apart — the `Input` singleton can't tell device IDs apart cleanly, your states are glued to the keyboard, and "reusable" is a word that doesn't apply anymore.
+You know the pattern: your player script calls `Input.get_vector()`, then your state script calls it again, then your AI script needs the same data but from a different source, and before long everything is reaching into everything else. Add a second player with a controller and it all falls apart. The `Input` singleton can't tell device IDs apart cleanly, your states are glued to the keyboard, and "reusable" is a word that doesn't apply anymore.
 
-**FlowState Sandbox** is an architecture that solves this. Data flows *down* — from input, through a context dict, into your states. Nothing reaches up. Nothing checks the keyboard directly. Plug in 4 controllers and they just work.
+**FlowState Sandbox** is an architecture that solves this. Data flows *down*: from input, through a context dict, into your states. Nothing reaches up. Nothing checks the keyboard directly. Plug in 4 controllers and they just work.
 
 Built on **Godot 4.6** with **Jolt Physics** and the **[FlowHFSM](https://github.com/jamesonBradfield/FlowHfsm)** addon.
 
 ## What It Does Differently
 
-- **Local multiplayer that just works** — `DeviceManager` detects controllers on connect, `LobbyManager` spawns avatars automatically. No manual device mapping, no wrestling with the `Input` singleton's `device_id` issues.
-- **Push-data-down, not pull** — Your `Walk` state doesn't check `Input`. It reads `move_vec` from a context dict that's built fresh each frame. Swap in AI input, replay data, or a network packet and your states don't change at all.
-- **Decoupled by design** — `StatePacket` sits between hardware and game logic. Raw input gets normalized (custom deadzones, sensitivity) *before* it reaches your character. Your character never sees the hardware.
-- **Visual state editing** — FlowHFSM's editor lets you build and inspect your state hierarchy in real-time. Behaviors, conditions, and transitions — all visible, all modular.
-- **Custom data resolvers** — Need camera-relative movement? Extend `FlowResolver`, pipe it into the context dict, and every downstream consumer gets the transformed data for free.
-- **High-visibility debugging** — `QuickLogger` gives you colored, leveled terminal output so you can actually see what's flowing where.
+- **Local multiplayer that just works**: `DeviceManager` detects controllers on connect, `LobbyManager` spawns avatars automatically. No manual device mapping, no wrestling with the `Input` singleton's `device_id` issues.
+- **Push-data-down, not pull**: Your `Walk` state doesn't check `Input`. It reads `move_vec` from a context dict that's built fresh each frame. Swap in AI input, replay data, or a network packet and your states don't change at all.
+- **Decoupled by design**: `StatePacket` sits between hardware and game logic. Raw input gets normalized (custom deadzones, sensitivity) *before* it reaches your character. Your character never sees the hardware.
+- **Visual state editing**: FlowHFSM's editor lets you build and inspect your state hierarchy in real-time. Behaviors, conditions, and transitions are all visible and modular.
+- **Custom data resolvers**: Need camera-relative movement? Extend `FlowResolver`, pipe it into the context dict, and every downstream consumer gets the transformed data for free.
+- **High-visibility debugging**: `QuickLogger` gives you colored, leveled terminal output so you can actually see what's flowing where.
 
 ## How It Works
 
 Raw input goes in one end. Context comes out the other. States read the context and act. That's it.
 
-Data flows one direction. Each stage is its own node with one job — nothing reaches backward.
+Data flows one direction. Each stage is its own class with one job. Nothing reaches backward.
 
-| Stage | Node | Job |
-|-------|------|-----|
+| Stage | Class | Job |
+|-------|-------|-----|
 | Collect | `InputToCommandBridge` | Per-device input capture, custom deadzones, sensitivity normalization |
 | Carry | `StatePacket` | Hardware-agnostic data container (`move_vec`, `look_vec`, `actions`) |
 | Resolve | `FlowDataMap` | Builds a context dict each frame from PATH bindings or custom `FlowResolver`s |
-| Decide | `FlowHFSM` | States, behaviors, and conditions all read from context — never from `Input` |
+| Decide | `FlowHFSM` | States, behaviors, and conditions all read from context, never from `Input` |
 | Render | `SplitScreenManager` | Per-player SubViewport, HUD, and device-filtered pause menu |
 
-Three managers sit above the pipeline: `DeviceManager` detects controllers and emits `new_device_connected`, `LobbyManager` calls `create_player()` to spawn avatars, and `SplitScreenManager` assigns each player to its own viewport. Your `FlowCharacter`'s `_physics_process` ties it all together — poll input, resolve the context dict, then let the state hierarchy process it.
+Three managers sit above the pipeline: `DeviceManager` detects controllers and emits `new_device_connected`, `LobbyManager` calls `create_player()` to spawn avatars, and `SplitScreenManager` assigns each player to its own viewport. Your `FlowCharacter`'s `_physics_process` ties it all together: poll input, resolve the context dict, then let the state hierarchy process it.
 
 ### Why Custom Input Handling?
 
-Godot's `Input` singleton can't cleanly separate inputs by `device_id` in a local multiplayer context. Each `InputToCommandBridge` handles its own device's deadzones and sensitivity before the data ever reaches game logic. Your character script never touches `Input` — it just reads from context.
+Godot's `Input` singleton can't cleanly separate inputs by `device_id` in a local multiplayer context. Each `InputToCommandBridge` handles its own device's deadzones and sensitivity before the data ever reaches game logic. Your character script never touches `Input`; it just reads from context.
 
 ## Quick Start
 
@@ -47,7 +47,7 @@ git clone --recursive https://github.com/jamesonbradfield/FlowState-Sandbox.git
 
 1. Open in **Godot 4.6** (Forward Plus).
 2. Run `main.tscn`.
-3. Connect a controller or press a key — the `LobbyManager` spawns your avatar and the data starts flowing.
+3. Connect a controller or press a key. The `LobbyManager` spawns your avatar and the data starts flowing.
 
 ### Controls
 
